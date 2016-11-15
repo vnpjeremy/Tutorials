@@ -13,5 +13,19 @@ int main()
         exit(1);
     }
 
+    SOCKADDR_IN sockIn; //Has a Port, Address, and character zero signature. (buffer?)
+    //              VV ugly way of doing unions. Ends up being a long, looks like.
+    sockIn.sin_addr.s_addr = inet_addr("127.0.0.1"); //Broadcast locally
+    sockIn.sin_port = htons(1111);                   //port
+    sockIn.sin_family = AF_INET;                     //IPv4 socket
+    int         sockInLen = sizeof(sockIn);                  //not size_t? dear God microsoft. What were the 80s like?
+
+    //More BS typedeffing
+    SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, NULL); //Create socket to listen for connections
+    /* Binding to an address defines exactly which interface  should have
+       that server port open. Binding to the address should make the server
+       port visible ONLY to code that can connect to that address. */
+    //bind(listenSocket)
+
     return 0;
 }
